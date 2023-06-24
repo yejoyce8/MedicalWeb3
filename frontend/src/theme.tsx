@@ -1,73 +1,54 @@
 import '@fontsource/poppins';
 import { extendTheme } from "@chakra-ui/react";
+import { generateKey } from 'crypto';
+import { builtinModules } from 'module';
 
 const customTheme = extendTheme({
-    textStyles: {
-      heading: {
-        fontFamily: "poppins",
-        fontSize: "2vw",
-      },
-      body: {
-        fontFamily: "poppins",
-        fontSize: "20px",
-        fontWeight: "bold",
-      },
-      fieldTitle: {
-        fontFamily: "poppins",
-        fontSize: "16px",
-      },
+  textStyles: {
+    heading1: {
+      color: "#569AFF",
+      fontSize: "58px",
+      //fontFamily: "Poppins",
+      fontWeight: 800,
     },
-    colors: {
-      gray: {
-        100: "##E2E8F0",
-        500: "#718096",
-      },
-      blue: {
-        100: "#90CDF4",
-      },
+    heading2: {
+      color: "#FFF",
+      fontSize: "40px",
+      //fontFamily: "Poppins",
+      fontWeight: 700,
     },
-    components: {
-      Button: {
-        variants: {
-          submit: {
-            width: "100%",
-            bg: "teal.500",
-            color: "white",
-            size: "md",
-          },
-          add: {
-            color: "white",
-            bg: "teal.400",
-            _hover: {
-              _disabled: {
-                bg: "teal.400",
-              },
-            },
-          },
-          remove: {
-            hover: "transparent",
-            color: "gray.500",
-          },
-          outline: {
-            border: "2px solid",
-            borderColor: "teal.400",
-            color: "teal.400",
-          },
-        },
-      },
-      PasswordInputFieldStyle,
-      Heading: {
-        variants: {
-          nav: {
-            color: "#fff",
-            margin: "30px",
-          },
-        },
-      },
+    heading3Gray: {
+      color: "#858585",
+      fontSize: "24px",
+      //fontFamily: "Poppins",
+      fontWeight: 700,
     },
-    config: {
-      initialColorMode: "light",
+    heading3White: {
+      color: "#FFF",
+      fontSize: "24px",
+      //fontFamily: "Poppins",
+      fontWeight: 700,
     },
-  });
-  
-  export default customTheme;
+    body: {
+      color: "#AAA",
+      textAlign: "center",
+      fontSize: "24px",
+      //fontFamily: "Poppins",
+      fontWeight: 700,
+    },
+  },
+  colors: {
+    white: {
+      100: "#FFF",
+    },
+    gray: {
+      100: "#AAA",
+      500: "#858585",
+    },
+    blue: {
+      100: "#569AFF",
+    },
+  },
+});
+
+export default customTheme;
