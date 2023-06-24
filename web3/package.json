@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "truffle": "^5.10.1"
+    "truffle": "^5.10.1",
+    "web3": "^4.0.1"
   },
-  "type": "module"}
+  "type": "module"
+}
