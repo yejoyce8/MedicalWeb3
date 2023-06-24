@@ -1,7 +1,7 @@
 import abiFile from "./abi.json" assert{type:"json"};
 let web3Instance;
 const abi = abiFile;
-const contractAddress = '0x3B0E42ec826aaEc9f51fd621C5ceDAe47f9e1e08';
+const contractAddress = '0xc25a6c50159032FCecD0da3B8852c327B14D45bA';
 window.onload = async ()=>{
   console.log("running");
   if(window.ethereum){
