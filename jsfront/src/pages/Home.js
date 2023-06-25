@@ -15,6 +15,7 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
+import NavBar from "./Navbar";
 
 /**
  * This page is used to create a new Review
@@ -22,6 +23,7 @@ import {
 const Home = () => {
   return (
     <Box>
+      <NavBar/>
       <Center>
         <Stack w="80%" mb="40">
           <Flex mt="10" mb="25">

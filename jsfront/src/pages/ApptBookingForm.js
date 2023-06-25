@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Heading, Input, Select, Text } from "@chakra-ui/react";
 import "react-datepicker/dist/react-datepicker.css";
-
+import NavBar from "./Navbar";
 /**
  * This page is used to create a new appointment
  */
@@ -42,6 +42,7 @@ const ApptBookingForm = () => {
       m="0px auto"
       w="70%"
     >
+      <NavBar/>
       <Heading
         style={{ paddingTop: "20px", paddingBottom: "20px" }}
         textStyle="heading1"
