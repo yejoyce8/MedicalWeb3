@@ -2,25 +2,24 @@
 import { web3Instance } from "./web3.js";
 import { createAppointment, getAppointments, getAppointmentsCount, getAppointmentsByDoctor, getAppointmentsByPatient, createAndRetrieveAppointments } from "./appointments.js";
 import { createDoctor, deleteDoctorProfile,deleteOneDoctorAvailability, createDoctorAvailability, getDoctorById, getDoctors, getDoctorCount, getDoctorAvailability} from "./doctor.js";
-import { getPatients, createPatient, getPatientCount,getPatientById,updatePatientProfile, deletePatientProfile } from "./patient.js";
+import { getPatients, createPatient, getPatientCount,testGetPatientById,updatePatientProfile, deletePatientProfile, testGetPatientByUsername, testDeletePatient } from "./patient.js";
 
 
-let globalPatientAccount;
-let globalDoctorAccount; 
-// createAppointment
+
+// createAppointment = works
 document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will likely want to search for the patient's account based on their name - might need a profile contract
-    globalPatientAccount = web3Instance.eth.accounts.create();
-    globalDoctorAccount = web3Instance.eth.accounts.create();
-    createAppointment(globalPatientAccount.address, globalDoctorAccount.address, "234245", "created");
+    const patientAccount = web3Instance.eth.accounts.create();
+    const doctorAccount = web3Instance.eth.accounts.create();
+    createAppointment(patientAccount.address, doctorAccount.address, "234245", "created");
   
   });
 
-// getAppointments  
+// getAppointments = works
   document.querySelectorAll("button")[1].addEventListener("click", ()=>{
     getAppointments();
   });
   
-// getAppointmentsCount
+// getAppointmentsCount = works
   document.querySelectorAll("button")[2].addEventListener("click", ()=>{
     getAppointmentsCount();
   });
@@ -72,37 +71,37 @@ document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will l
 
   // patient tests -------------------
 
-// getPatients
+// getPatients = works
   document.querySelectorAll("button")[10].addEventListener("click", ()=>{
     getPatients();
   });
 
+  // getPatientCount = works
   document.querySelectorAll("button")[11].addEventListener("click", ()=>{
     getPatientCount();
   });
 
-  // createPatient
+  // createPatient = works
   document.querySelectorAll("button")[12].addEventListener("click", ()=>{
     createPatient('patientuser', 'patientdisplay',["info"]);
   });
 
-  // getPatientByid
+  // getPatientByid = works
    document.querySelectorAll("button")[13].addEventListener("click", ()=>{
-    const patientAccount = web3Instance.eth.accounts.create();
-    getPatientById(patientAccount.address);
+    testGetPatientById(); 
   });
 
-  // deletePatientProfile
+  // deletePatientProfile = works
   document.querySelectorAll("button")[14].addEventListener("click", ()=>{
-    const patientAccount = web3Instance.eth.accounts.create();
-    deletePatientProfile(patientAccount.address);
+    testDeletePatient();
   });
 
-  // updatePatientProfile
+  // updatePatientProfile = works
   document.querySelectorAll("button")[15].addEventListener("click", ()=>{
     // create patient first
     const patientAccount = web3Instance.eth.accounts.create();
-    createPatient(patientAccount.address, "patient", "newdisplay")
+    createPatient("patientuser", "display",['medicalinfo'])
+    // then update it
     updatePatientProfile(patientAccount.address, "updatedpatientuser", "updateddisplay", ["updatedmedinfo"]);
   });
 
@@ -115,7 +114,7 @@ document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will l
       getDoctorAvailability(doctorAccount.address);
     }); 
 
-  // deleteAppointment
+  // deleteAppointment = works
   document.querySelectorAll("button")[17].addEventListener("click", ()=>{
     // create an appointment first
     const patientAccount = web3Instance.eth.accounts.create();
@@ -125,15 +124,11 @@ document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will l
 
   // getAppointmentsByPatient and by doctor
   document.querySelectorAll("button")[18].addEventListener("click", ()=>{
-    // create a patient and their appointment
-    //  const patientAccount = web3Instance.eth.accounts.create();
-    //  const doctorAccount = web3Instance.eth.accounts.create();
-    //  // transaction is done here
-    // await createAppointment(patientAccount.address, doctorAccount.address, "234245", "created");
-
-    // // after transaction is done, do these
-    // getAppointmentsByPatient(patientAccount.address);
-    // getAppointmentByDoctor(doctorAccount.address);
     createAndRetrieveAppointments();
 
   });
+
+  // getPatientByUsername = works
+  document.querySelectorAll("button")[19].addEventListener("click", ()=>{
+    testGetPatientByUsername();
+  }); 
