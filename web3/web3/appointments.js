@@ -12,6 +12,11 @@ const contractAddress = 'c25a6c50159032FCecD0da3B8852c327B14D45bA';
 
 // to make changes to the smart contract:
   // each time you change the smart contract
+
+  // patient: address
+  // doctor: address
+  // date: int
+  // details: string
   export async function createAppointment(patient, doctor, date, details) {
     const contract = new web3Instance.eth.Contract(abi, contractAddress);
     try {
@@ -24,7 +29,7 @@ const contractAddress = 'c25a6c50159032FCecD0da3B8852c327B14D45bA';
       console.error('Error creating appointment:', error);
     }
   }
-  
+
   // implement the rest of crud and probably single crud given patient id/address
   export async function getAppointmentsCount(){
     const contract = new web3Instance.eth.Contract(abi, contractAddress);

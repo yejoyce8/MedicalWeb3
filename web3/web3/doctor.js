@@ -92,5 +92,14 @@ export async function createDoctor(username, displayName, profileInfo, available
     }
   }
 
+  export async function getDoctorAvailability(_id) {
+    const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
+    try {
+        const data = await contract.methods.getDoctorAvailability(_id).call();
+        console.log('Doctor availability got successfully');
+    } catch (error) {
+        console.error('Error: ', error)
+    }
+  }
   
   

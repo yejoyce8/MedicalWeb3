@@ -162,6 +162,16 @@ contract Doctor {
      }
     }
 
+    function getDoctorAvailability(
+        address _doctor
+    ) external view returns (uint[] memory) {
+        for (uint i = 0; i < doctors.length; i++) {
+            if (doctors[i].id == _doctor) {
+                return doctors[i].availableTimes;
+            }
+        }
+    }
+
     function toAsciiString(uint256 value) internal pure returns (string memory) {
         if (value == 0) {
             return "0";

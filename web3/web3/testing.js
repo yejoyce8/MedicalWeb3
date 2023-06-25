@@ -1,7 +1,7 @@
 // test
 import { web3Instance } from "./web3.js";
 import { createAppointment, getAppointments, getAppointmentsCount } from "./appointments.js";
-import { createDoctor, deleteDoctorProfile, deleteDoctorAvailability, createDoctorAvailability, getDoctorById, getDoctors, getDoctorCount} from "./doctor.js";
+import { createDoctor, deleteDoctorProfile, deleteDoctorAvailability, createDoctorAvailability, getDoctorById, getDoctors, getDoctorCount, getDoctorAvailability} from "./doctor.js";
 import { getPatients, createPatient, getPatientCount,getPatientById,updatePatientProfile, deletePatientProfile } from "./patient.js";
 
 // createAppointment
@@ -66,8 +66,18 @@ document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will l
     createDoctorAvailability(doctorAccount.address, "123");
   });
 
+  // getDoctorAvailability
+  document.querySelectorAll("button")[16].addEventListener("click", ()=>{
+    // create some availabilities first
+    const doctorAccount = web3Instance.eth.accounts.create();
+    createDoctorAvailability(doctorAccount.address, "123");
+    // retrieve the availability
+    getDoctorAvailability(doctorAccount.address);
+  }); 
+
 
   // patient tests -------------------
+
 // getPatients
   document.querySelectorAll("button")[10].addEventListener("click", ()=>{
     getPatients();
@@ -85,13 +95,22 @@ document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will l
   // getPatientByid
    document.querySelectorAll("button")[13].addEventListener("click", ()=>{
     const patientAccount = web3Instance.eth.accounts.create();
-    getDoctorById(patientAccount.address);
+    getPatientById(patientAccount.address);
   });
 
   // deletePatientProfile
   document.querySelectorAll("button")[14].addEventListener("click", ()=>{
     const patientAccount = web3Instance.eth.accounts.create();
-    deleteDoctorProfile(patientAccount.address);
+    deletePatientProfile(patientAccount.address);
+  });
+
+  // updatePatientProfile
+  document.querySelectorAll("button")[15].addEventListener("click", ()=>{
+    // create patient first
+    const patientAccount = web3Instance.eth.accounts.create();
+    createPatient(patientAccount.address, "patient", "display", ["medinfo"]);
+    // update it
+    updatePatientProfile(patientAccount.address, "updatedpatientuser", "updateddisplay", ["updatedmedinfo"]);
   });
 
 
