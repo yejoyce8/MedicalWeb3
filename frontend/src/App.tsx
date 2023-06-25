@@ -21,6 +21,7 @@ const App = (): React.ReactElement => {
         <Routes>
           <Route path={myRoutes.HOME_PAGE} element={<Home />} />
           <Route path={myRoutes.APPT_BOOK_PAGE} element={<ApptBookingForm />} />
+            <Route path={myRoutes.LOGIN_PAGE} element={<Home />} />
         </Routes>
       </Router>
     </ChakraProvider>
