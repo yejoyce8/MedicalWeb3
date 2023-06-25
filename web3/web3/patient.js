@@ -1,6 +1,8 @@
-import {web3Instance, abi, patientContractAddress} from'./web3.js';
+import {web3Instance} from'./web3.js';
+import abiFile from "./patientABI.json" assert{type:"json"};
+const abi = abiFile;
+const patientContractAddress = '0x297Cd66BDa2bE11F654455bC1664B4339670e150';
 
-import { deleteAppointment } from './appointments.js';
 
 export async function createPatient(username, displayName, medicalInformation) {
     const contract = new web3Instance.eth.Contract(abi, patientContractAddress);
@@ -22,6 +24,7 @@ export async function createPatient(username, displayName, medicalInformation) {
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getPatientCount().call({from: accounts[0]});
       console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -33,6 +36,7 @@ export async function createPatient(username, displayName, medicalInformation) {
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getPatients().call({from: accounts[0]});
       console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }

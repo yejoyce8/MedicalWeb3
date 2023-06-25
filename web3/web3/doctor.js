@@ -1,4 +1,4 @@
-import {web3Instance, abi, doctorContractAddress} from'./web3.js';
+import {web3Instance} from'./web3.js';
 // import abi
 // import doctordoctorContractAddress
 // import appointmentdoctorContractAddress
@@ -70,22 +70,31 @@ export async function createDoctor(username, displayName, profileInfo, available
     }
   }
 
-  export async function deleteDoctorAvailability(_id, appointmentId, date) {
+
+  export async function deleteOneDoctorAvailability(_id, date) {
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
-        await contract.methods.deleteDoctorAvailability(_id, date).call();
+        await contract.methods.deleteOneDoctorAvailability(_id, date).call();
         console.log('Doctor availability updated successfully');
-        await deleteAppointment(appointmentId);
-        console.log('Doctor availability deleted successfully');
     } catch (error) {
         console.error('Error: ', error)
     }
   }
 
-  export async function createDoctorAvailability(_id, date) {
+  export async function createOneDoctorAvailability(_id, date) {
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
-        await contract.methods.createDoctorAvailability(_id, date).call();
+        await contract.methods.createOneDoctorAvailability(_id, date).call();
+        console.log('Doctor availability updated successfully');
+    } catch (error) {
+        console.error('Error: ', error)
+    }
+  }
+
+  export async function createDoctorAvailability(_id, dates) {
+    const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
+    try {
+        await contract.methods.createDoctorAvailability(_id, dates).call();
         console.log('Doctor availability updated successfully');
     } catch (error) {
         console.error('Error: ', error)

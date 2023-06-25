@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-
+//TODO: add function
 contract Doctor {
     struct DoctorData {
         address id;
@@ -10,7 +10,6 @@ contract Doctor {
         uint [] availableTimes; 
     }
     DoctorData[] doctors;
-
     
     event DoctorDataCreated(
         address indexed id,
@@ -20,7 +19,7 @@ contract Doctor {
         uint [] availableTimes
     );
     
-     event DoctorDataUpdated(
+    event DoctorDataUpdated(
         address indexed id,
         string username,
         string displayName,
@@ -95,7 +94,7 @@ contract Doctor {
         }
     }
 
-    function updateDoctorAvailability(address _doctor, uint256 _date) public {
+    function deleteOneDoctorAvailability(address _doctor, uint256 _date) public {
         for (uint i = 0; i < doctors.length; i++) {
             if (doctors[i].id == _doctor) {
                 uint[] memory updatedAvailability = new uint[](doctors[i].availableTimes.length);
@@ -118,6 +117,22 @@ contract Doctor {
                 break;
             }
         }
+    }
+
+    function createOneDoctorAvailability(address _doctor, uint256 _date) public {
+       for (uint i = 0; i < doctors.length; i++) {
+            if (doctors[i].id == _doctor) {
+                doctors[i].availableTimes.push(_date);
+                emit DoctorDataUpdated(
+                    doctors[i].id,
+                    doctors[i].username,
+                    doctors[i].displayName,
+                    doctors[i].profileInfo,
+                    doctors[i].availableTimes
+                );
+                break;
+            }
+        } 
     }
 
     function createDoctorAvailability(address _doctor, uint[] memory times) public {

@@ -52,29 +52,48 @@ contract Appointment {
         return appointments;
     }
 
-    function getAppointmentsByPatient(address _patient) external view returns (AppointmentData[] memory) {
-        AppointmentData[] memory filteredAppointments;
-        uint count = 0;
-        for (uint i=0; i < appointments.length; i++) {
-            if (appointments[i].patient == _patient) {
-                filteredAppointments[count] = appointments[i];
-                count ++;
-            }
+   function getAppointmentsByPatient(address _patient) external view returns (AppointmentData[] memory) {
+    uint count = 0;
+    for (uint i = 0; i < appointments.length; i++) {
+        if (appointments[i].patient == _patient) {
+            count++;
         }
-        return filteredAppointments;
     }
 
-    function getAppointmentByDoctor(address _doctor) external view returns (AppointmentData[] memory) {
-        AppointmentData[] memory filteredAppointments;
-        uint count = 0;
-        for (uint i=0; i < appointments.length; i++) {
-            if (appointments[i].doctor == _doctor) {
-                filteredAppointments[count] = appointments[i];
-                count ++;
-            }
+    AppointmentData[] memory filteredAppointments = new AppointmentData[](count);
+    uint filteredCount = 0;
+
+    for (uint i = 0; i < appointments.length; i++) {
+        if (appointments[i].patient == _patient) {
+            filteredAppointments[filteredCount] = appointments[i];
+            filteredCount++;
         }
-        return filteredAppointments;
     }
+
+    return filteredAppointments;
+}
+
+function getAppointmentsByDoctor(address _doctor) external view returns (AppointmentData[] memory) {
+    uint count = 0;
+    for (uint i = 0; i < appointments.length; i++) {
+        if (appointments[i].doctor == _doctor) {
+            count++;
+        }
+    }
+
+    AppointmentData[] memory filteredAppointments = new AppointmentData[](count);
+    uint filteredCount = 0;
+
+    for (uint i = 0; i < appointments.length; i++) {
+        if (appointments[i].doctor == _doctor) {
+            filteredAppointments[filteredCount] = appointments[i];
+            filteredCount++;
+        }
+    }
+
+    return filteredAppointments;
+}
+
        
      // make sure to update doctor availability after deleting appt - functionality ocming soon lmfao 
     function deleteAppointment(uint _id) external {
