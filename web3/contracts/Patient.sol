@@ -6,15 +6,15 @@ contract Patient {
         address id;
         string username;
         string displayName;
-        string [] medicalInformation;
+        string[] medicalInformation;
     }
     PatientData[] patients;
 
     event PatientCreated(
         address indexed id,
         string username,
-        string displayName, 
-        string [] medicalInformation
+        string displayName,
+        string[] medicalInformation
     );
 
     event PatientUpdated(
@@ -28,11 +28,15 @@ contract Patient {
     function createPatient(
         address id,
         string memory _username,
-        string memory _displayName, 
-        string [] memory _medicalInformation
+        string memory _displayName,
+        string[] memory _medicalInformation
     ) external {
-        PatientData memory newPatient =
-            PatientData(id, _username, _displayName, _medicalInformation);
+        PatientData memory newPatient = PatientData(
+            id,
+            _username,
+            _displayName,
+            _medicalInformation
+        );
         patients.push(newPatient);
 
         emit PatientCreated(id, _username, _displayName, _medicalInformation);
@@ -46,7 +50,9 @@ contract Patient {
         return patients.length;
     }
 
-    function getPatientById(address _id) external view returns (PatientData memory) {
+    function getPatientById(
+        address _id
+    ) external view returns (PatientData memory) {
         for (uint256 i = 0; i < patients.length; i++) {
             if (patients[i].id == _id) {
                 return patients[i];
@@ -66,7 +72,12 @@ contract Patient {
                 patients[i].displayName = _displayName;
                 patients[i].medicalInformation = _medicalInformation;
 
-                emit PatientUpdated(_id, _username, _displayName, _medicalInformation);
+                emit PatientUpdated(
+                    _id,
+                    _username,
+                    _displayName,
+                    _medicalInformation
+                );
                 break;
             }
         }

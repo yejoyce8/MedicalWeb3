@@ -9,13 +9,13 @@ import {
   InputLeftElement,
   chakra,
   Box,
-  Link,
   Avatar,
   FormControl,
   FormHelperText,
-  InputRightElement
+  InputRightElement,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -99,7 +99,7 @@ const Login = () => {
       </Stack>
       <Box>
         New to us?{" "}
-        <Link color="#569AFF" href="#">
+        <Link to="/sign-up" style={{ color: "#569AFF" }}>
           Sign Up
         </Link>
       </Box>
