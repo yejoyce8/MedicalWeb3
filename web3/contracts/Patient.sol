@@ -9,7 +9,7 @@ contract Patient {
         string [] medicalInformation;
     }
     PatientData[] patients;
-    
+
     event PatientCreated(
         address indexed id,
         string username,
@@ -26,16 +26,16 @@ contract Patient {
     event PatientDeleted(address indexed id);
 
     function createPatient(
-        address _id,
+        address id,
         string memory _username,
         string memory _displayName, 
         string [] memory _medicalInformation
     ) external {
         PatientData memory newPatient =
-            PatientData(_id, _username, _displayName, _medicalInformation);
+            PatientData(id, _username, _displayName, _medicalInformation);
         patients.push(newPatient);
 
-        emit PatientCreated(_id, _username, _displayName, _medicalInformation);
+        emit PatientCreated(id, _username, _displayName, _medicalInformation);
     }
 
     function getPatientCount() external view returns (uint256) {

@@ -8,13 +8,14 @@ export async function createDoctor(username, displayName, profileInfo, available
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
         const accounts = await web3Instance.eth.getAccounts();
+        const doctorAccount = web3Instance.eth.accounts.create();
         console.log("Creating Doctor Account...");
-        await contract.methods.createDoctor(username, displayName, profileInfo, availableTimes).send({from: accounts[0]});
+        await contract.methods.createDoctor(doctorAccount.address, username, displayName, profileInfo, availableTimes).send({from: accounts[0]});
         console.log('Doctor Account created successfully');
     } catch (error) {
       console.error('Error creating doctor account:', error);
     }
-  }
+}
   
   // implement the rest of crud and probably single crud given patient id/address
   export async function getDoctorCount(){
@@ -69,13 +70,27 @@ export async function createDoctor(username, displayName, profileInfo, available
     }
   }
 
-  export async function deleteDoctorAvailability(_id, date) {
-    const doctorContract = new web3Instance.eth.Contract(abi, doctorContractAddress);
+  export async function deleteDoctorAvailability(_id, appointmentId, date) {
+    const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
-        await contract.methods.updateDoctorAvailability(_id, date).call();
-        await deleteAppointment(date)
+        await contract.methods.deleteDoctorAvailability(_id, date).call();
+        console.log('Doctor availability updated successfully');
+        await deleteAppointment(appointmentId);
+        console.log('Doctor availability deleted successfully');
+    } catch (error) {
+        console.error('Error: ', error)
+    }
+  }
+
+  export async function createDoctorAvailability(_id, date) {
+    const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
+    try {
+        await contract.methods.createDoctorAvailability(_id, date).call();
         console.log('Doctor availability updated successfully');
     } catch (error) {
         console.error('Error: ', error)
     }
   }
+
+  
+  

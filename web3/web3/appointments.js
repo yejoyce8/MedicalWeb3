@@ -15,9 +15,10 @@ const contractAddress = 'c25a6c50159032FCecD0da3B8852c327B14D45bA';
   export async function createAppointment(patient, doctor, date, details) {
     const contract = new web3Instance.eth.Contract(abi, contractAddress);
     try {
-        const accounts = await web3Instance.eth.getAccounts();
+        const account = await web3Instance.eth.getAccounts()[0];
+        const privateKey = account.privateKey; 
         console.log("Creating Appointment...");
-        await contract.methods.createAppointment(patient, doctor, date, details).send({from: accounts[0]});
+        await contract.methods.createAppointment(patient, doctor, date, details).send({from: account});
         console.log('Appointment created successfully');
     } catch (error) {
       console.error('Error creating appointment:', error);
