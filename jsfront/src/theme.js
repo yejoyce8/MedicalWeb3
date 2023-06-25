@@ -1,7 +1,5 @@
-import '@fontsource/poppins';
+import "@fontsource/poppins";
 import { extendTheme } from "@chakra-ui/react";
-import { generateKey } from 'crypto';
-import { builtinModules } from 'module';
 
 const customTheme = extendTheme({
   textStyles: {
@@ -44,7 +42,7 @@ const customTheme = extendTheme({
     gray: {
       100: "#AAA",
       500: "#858585",
-      600: "#9D9D9D"
+      600: "#9D9D9D",
     },
     blue: {
       100: "#569AFF",
