@@ -10,6 +10,7 @@ contract Doctor {
         uint [] availableTimes; 
     }
     DoctorData[] doctors;
+
     
     event DoctorDataCreated(
         address indexed id,
@@ -29,17 +30,17 @@ contract Doctor {
     event DoctorDataDeleted(address indexed id);
 
     function createDoctor(
-        address _id,
+        address id,
         string memory _username,
         string memory _displayName, 
         string [] memory _profileInfo,
         uint [] memory _availableTimes
     ) external {
         DoctorData memory newDoctor =
-            DoctorData(_id, _username, _displayName, _profileInfo, _availableTimes);
+            DoctorData(id, _username, _displayName, _profileInfo, _availableTimes);
         doctors.push(newDoctor);
 
-        emit DoctorDataCreated(_id, _username, _displayName, _profileInfo, _availableTimes);
+        emit DoctorDataCreated(id, _username, _displayName, _profileInfo, _availableTimes);
     }
 
     function getDoctorCount() external view returns (uint256) {
@@ -91,18 +92,60 @@ contract Doctor {
     }
 
     function updateDoctorAvailability(address _doctor, uint256 _date) public {
+        for (uint i = 0; i < doctors.length; i++) {
+            if (doctors[i].id == _doctor) {
+                uint[] memory updatedAvailability = new uint[](doctors[i].availableTimes.length);
+                uint count = 0;
+                for (uint j = 0; j < doctors[i].availableTimes.length; j++) {
+                    if (doctors[i].availableTimes[j] != _date) {
+                        updatedAvailability[count] = doctors[i].availableTimes[j];
+                        count++;
+                    }
+                }
+                doctors[i].availableTimes = updatedAvailability;
+
+                emit DoctorDataUpdated(
+                    doctors[i].id,
+                    doctors[i].username,
+                    doctors[i].displayName,
+                    doctors[i].profileInfo,
+                    doctors[i].availableTimes
+                    );
+                break;
+            }
+        }
+    }
+
+    function createDoctorAvailability(address _doctor, uint[] memory times) public {
+        for (uint i = 0; i < doctors.length; i++) {
+            if (doctors[i].id == _doctor) {
+                for (uint j = 0; j < times.length; j++) {
+                    doctors[i].availableTimes.push(times[j]);
+                }
+                emit DoctorDataUpdated(
+                    doctors[i].id,
+                    doctors[i].username,
+                    doctors[i].displayName,
+                    doctors[i].profileInfo,
+                    doctors[i].availableTimes
+                );
+                break;
+            }
+        }
+    }
+
+    function deleteDoctorAvailability(address _doctor, uint[] memory times) public {
     for (uint i = 0; i < doctors.length; i++) {
         if (doctors[i].id == _doctor) {
-            uint[] memory updatedAvailability = new uint[](doctors[i].availableTimes.length);
-            uint count = 0;
-            for (uint j = 0; j < doctors[i].availableTimes.length; j++) {
-                if (doctors[i].availableTimes[j] != _date) {
-                    updatedAvailability[count] = doctors[i].availableTimes[j];
-                    count++;
+            for (uint j = 0; j < times.length; j++) {
+                for (uint k = 0; k < doctors[i].availableTimes.length; k++) {
+                    if (doctors[i].availableTimes[k] == times[j]) {
+                        doctors[i].availableTimes[k] = doctors[i].availableTimes[doctors[i].availableTimes.length - 1];
+                        doctors[i].availableTimes.pop();
+                        break;
+                    }
                 }
             }
-            doctors[i].availableTimes = updatedAvailability;
-
             emit DoctorDataUpdated(
                 doctors[i].id,
                 doctors[i].username,
@@ -110,9 +153,35 @@ contract Doctor {
                 doctors[i].profileInfo,
                 doctors[i].availableTimes
             );
-                break;
-            }
+            break;
         }
+     }
+    }
+
+    function toAsciiString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+        
+        uint256 temp = value;
+        uint256 digits;
+        
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        
+        bytes memory buffer = new bytes(digits);
+        uint256 index = digits - 1;
+        temp = value;
+        
+        while (temp != 0) {
+            buffer[index--] = bytes1(uint8(48 + temp % 10));
+            temp /= 10;
+        }
+        
+        return string(buffer);
     }
 
 }
+
