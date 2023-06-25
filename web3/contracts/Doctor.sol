@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-//TODO: add function
 contract Doctor {
     struct DoctorData {
         address id;
@@ -9,7 +8,12 @@ contract Doctor {
         string [] profileInfo;
         uint [] availableTimes; 
     }
-    DoctorData[] doctors;
+    
+    DoctorData[] public doctors;
+    
+    mapping(string => address) public doctorIdsByUsername;
+
+    mapping(address => DoctorData) public doctorDataByAddress;
     
     event DoctorDataCreated(
         address indexed id,
@@ -38,6 +42,8 @@ contract Doctor {
         DoctorData memory newDoctor =
             DoctorData(id, _username, _displayName, _profileInfo, _availableTimes);
         doctors.push(newDoctor);
+        doctorIdsByUsername[_username] = id;
+        doctorDataByAddress[id] = newDoctor;
 
         emit DoctorDataCreated(id, _username, _displayName, _profileInfo, _availableTimes);
     }
@@ -51,11 +57,13 @@ contract Doctor {
     }
 
     function getDoctorById(address _id) external view returns (DoctorData memory) {
-        for (uint256 i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _id) {
-                return doctors[i];
-            }
-        }
+        return doctorDataByAddress[_id];
+    }
+
+    function getDoctorByUsername(string memory _username) external view returns (DoctorData memory) {
+        address doctorId = doctorIdsByUsername[_username];
+        require(doctorId != address(0), "Doctor not found");
+        return doctorDataByAddress[doctorId];
     }
 
     function updateDoctor(

@@ -24,6 +24,7 @@ export async function createDoctor(username, displayName, profileInfo, available
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getDoctorCount().call({from: accounts[0]});
       console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -35,6 +36,7 @@ export async function createDoctor(username, displayName, profileInfo, available
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getDoctors().call({from: accounts[0]});
       console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -106,6 +108,7 @@ export async function createDoctor(username, displayName, profileInfo, available
     try {
         const data = await contract.methods.getDoctorAvailability(_id).call();
         console.log('Doctor availability got successfully');
+        return data;
     } catch (error) {
         console.error('Error: ', error)
     }

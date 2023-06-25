@@ -38,6 +38,7 @@ const contractAddress = '0xF7586bac72e17de70dEB7a085c14b71C796Fcee4';
       console.log(accounts);
       const data = await contract.methods.getAppointmentsCount().call({from: accounts[0]});
       console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -49,6 +50,7 @@ const contractAddress = '0xF7586bac72e17de70dEB7a085c14b71C796Fcee4';
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getAppointments().call({from: accounts[0]});
       console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }
@@ -60,6 +62,7 @@ const contractAddress = '0xF7586bac72e17de70dEB7a085c14b71C796Fcee4';
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getAppointmentsByPatient(patientAccount).call({from: accounts[0]});
       console.log("getappointmentsbypatient:",data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     } 
@@ -71,6 +74,7 @@ const contractAddress = '0xF7586bac72e17de70dEB7a085c14b71C796Fcee4';
       const accounts = await web3Instance.eth.getAccounts();
       const data = await contract.methods.getAppointmentsByDoctor(doctorAccount).call({from: accounts[0]});
       console.log("getappointmentsbydoctor:",data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     } 

@@ -6,15 +6,17 @@ contract Patient {
         address id;
         string username;
         string displayName;
-        string [] medicalInformation;
+        string[] medicalInformation;
     }
-    PatientData[] patients;
+    
+    PatientData[] public patients;
+    mapping(string => address) public patientIdsByUsername;
 
     event PatientCreated(
         address indexed id,
         string username,
-        string displayName, 
-        string [] medicalInformation
+        string displayName,
+        string[] medicalInformation
     );
 
     event PatientUpdated(
@@ -23,17 +25,19 @@ contract Patient {
         string displayName,
         string[] medicalInformation
     );
+
     event PatientDeleted(address indexed id);
 
     function createPatient(
         address id,
         string memory _username,
-        string memory _displayName, 
-        string [] memory _medicalInformation
+        string memory _displayName,
+        string[] memory _medicalInformation
     ) external {
         PatientData memory newPatient =
             PatientData(id, _username, _displayName, _medicalInformation);
         patients.push(newPatient);
+        patientIdsByUsername[_username] = id;
 
         emit PatientCreated(id, _username, _displayName, _medicalInformation);
     }
@@ -49,6 +53,16 @@ contract Patient {
     function getPatientById(address _id) external view returns (PatientData memory) {
         for (uint256 i = 0; i < patients.length; i++) {
             if (patients[i].id == _id) {
+                return patients[i];
+            }
+        }
+    }
+
+    function getPatientByUsername(string memory _username) external view returns (PatientData memory) {
+        address patientId = patientIdsByUsername[_username];
+        require(patientId != address(0), "Patient not found");
+        for (uint256 i = 0; i < patients.length; i++) {
+            if (patients[i].id == patientId) {
                 return patients[i];
             }
         }
