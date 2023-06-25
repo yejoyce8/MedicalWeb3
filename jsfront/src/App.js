@@ -7,8 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 //PAGES
 import ApptBookingForm from "./pages/ApptBookingForm";
 import Home from "./pages/Home";
-import Login from "./pages/Login"
-import NavBar from "./pages/Navbar"
+import Login from "./pages/Login";
 
 //THEME
 import customTheme from "./theme";
