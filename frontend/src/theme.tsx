@@ -44,6 +44,7 @@ const customTheme = extendTheme({
     gray: {
       100: "#AAA",
       500: "#858585",
+      600: "#9D9D9D"
     },
     blue: {
       100: "#569AFF",
