@@ -8,9 +8,9 @@ import { getPatients, createPatient, getPatientCount,testGetPatientById,updatePa
 
 // createAppointment = works
 document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will likely want to search for the patient's account based on their name - might need a profile contract
-    globalPatientAccount = web3Instance.eth.accounts.create();
-    globalDoctorAccount = web3Instance.eth.accounts.create();
-    createAppointment(globalPatientAccount.address, globalDoctorAccount.address, "234245", "created");
+    const patientAccount = web3Instance.eth.accounts.create();
+    const doctorAccount = web3Instance.eth.accounts.create();
+    createAppointment(patientAccount.address, doctorAccount.address, "234245", "created");
   
   });
 

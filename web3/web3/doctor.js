@@ -1,8 +1,7 @@
 import {web3Instance} from'./web3.js';
-// import abi
-// import doctordoctorContractAddress
-// import appointmentdoctorContractAddress
-import { deleteAppointment } from './appointments.js';
+import abiFile from "./doctorABI.json" assert{type:"json"};
+const abi = abiFile;
+const doctorContractAddress = '0x0038c3c0A31DF1E869974171865e8237EEDE4293';
 
 export async function createDoctor(username, displayName, profileInfo, availableTimes) {
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
@@ -17,7 +16,6 @@ export async function createDoctor(username, displayName, profileInfo, available
     }
 }
   
-  // implement the rest of crud and probably single crud given patient id/address
   export async function getDoctorCount(){
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
@@ -47,6 +45,18 @@ export async function createDoctor(username, displayName, profileInfo, available
     try {
       const doctorData = await contract.methods.getDoctorById(_id).call();
       return doctorData;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // returns the doctor object data 
+  export async function getDoctorByUsername(username) {
+    const contract = new web3.eth.Contract(abi, doctorContractAddress);
+    try {
+      const data = await contract.methods.getDoctorByUsername(username).call();
+      console.log(data);
+      return data;
     } catch (error) {
       console.error('Error:', error);
     }

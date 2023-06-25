@@ -66,158 +66,104 @@ contract Doctor {
         return doctorDataByAddress[doctorId];
     }
 
-    function updateDoctor(
+   function updateDoctor(
         address _id,
         string memory _username,
         string memory _displayName,
         string[] memory _profileInfo,
-        uint [] memory _availableTimes
+        uint[] memory _availableTimes
     ) external {
-        for (uint256 i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _id) {
-                doctors[i].username = _username;
-                doctors[i].displayName = _displayName;
-                doctors[i].profileInfo = _profileInfo;
-                doctors[i].availableTimes = _availableTimes;
+        DoctorData storage doctor = doctorDataByAddress[_id];
+        doctor.username = _username;
+        doctor.displayName = _displayName;
+        doctor.profileInfo = _profileInfo;
+        doctor.availableTimes = _availableTimes;
 
-                emit DoctorDataUpdated(
-                    _id,
-                    _username,
-                    _displayName,
-                    _profileInfo,
-                    _availableTimes
-                );
-                break;
-            }
-        }
+        emit DoctorDataUpdated(_id, _username, _displayName, _profileInfo, _availableTimes);
     }
 
     function deleteDoctor(address _id) external {
-        for (uint256 i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _id) {
-                delete doctors[i];
-                emit DoctorDataDeleted(_id);
-                break;
-            }
-        }
+        delete doctorDataByAddress[_id];
+        emit DoctorDataDeleted(_id);
     }
 
-    function deleteOneDoctorAvailability(address _doctor, uint256 _date) public {
-        for (uint i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _doctor) {
-                uint[] memory updatedAvailability = new uint[](doctors[i].availableTimes.length);
-                uint count = 0;
-                for (uint j = 0; j < doctors[i].availableTimes.length; j++) {
-                    if (doctors[i].availableTimes[j] != _date) {
-                        updatedAvailability[count] = doctors[i].availableTimes[j];
-                        count++;
-                    }
-                }
-                doctors[i].availableTimes = updatedAvailability;
 
-                emit DoctorDataUpdated(
-                    doctors[i].id,
-                    doctors[i].username,
-                    doctors[i].displayName,
-                    doctors[i].profileInfo,
-                    doctors[i].availableTimes
-                    );
+    function deleteOneDoctorAvailability(address _doctor, uint256 _date) public {
+        DoctorData storage doctor = doctorDataByAddress[_doctor];
+        uint[] storage availableTimes = doctor.availableTimes;
+
+        for (uint256 i = 0; i < availableTimes.length; i++) {
+            if (availableTimes[i] == _date) {
+                availableTimes[i] = availableTimes[availableTimes.length - 1];
+                availableTimes.pop();
                 break;
             }
         }
+
+        emit DoctorDataUpdated(
+            doctor.id,
+            doctor.username,
+            doctor.displayName,
+            doctor.profileInfo,
+            doctor.availableTimes
+        );
     }
 
     function createOneDoctorAvailability(address _doctor, uint256 _date) public {
-       for (uint i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _doctor) {
-                doctors[i].availableTimes.push(_date);
-                emit DoctorDataUpdated(
-                    doctors[i].id,
-                    doctors[i].username,
-                    doctors[i].displayName,
-                    doctors[i].profileInfo,
-                    doctors[i].availableTimes
-                );
-                break;
-            }
-        } 
+        DoctorData storage doctor = doctorDataByAddress[_doctor];
+        doctor.availableTimes.push(_date);
+
+        emit DoctorDataUpdated(
+            doctor.id,
+            doctor.username,
+            doctor.displayName,
+            doctor.profileInfo,
+            doctor.availableTimes
+        );
     }
 
     function createDoctorAvailability(address _doctor, uint[] memory times) public {
-        for (uint i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _doctor) {
-                for (uint j = 0; j < times.length; j++) {
-                    doctors[i].availableTimes.push(times[j]);
-                }
-                emit DoctorDataUpdated(
-                    doctors[i].id,
-                    doctors[i].username,
-                    doctors[i].displayName,
-                    doctors[i].profileInfo,
-                    doctors[i].availableTimes
-                );
-                break;
-            }
+        DoctorData storage doctor = doctorDataByAddress[_doctor];
+        for (uint i = 0; i < times.length; i++) {
+            doctor.availableTimes.push(times[i]);
         }
+
+        emit DoctorDataUpdated(
+            doctor.id,
+            doctor.username,
+            doctor.displayName,
+            doctor.profileInfo,
+            doctor.availableTimes
+        );
+
     }
 
     function deleteDoctorAvailability(address _doctor, uint[] memory times) public {
-    for (uint i = 0; i < doctors.length; i++) {
-        if (doctors[i].id == _doctor) {
-            for (uint j = 0; j < times.length; j++) {
-                for (uint k = 0; k < doctors[i].availableTimes.length; k++) {
-                    if (doctors[i].availableTimes[k] == times[j]) {
-                        doctors[i].availableTimes[k] = doctors[i].availableTimes[doctors[i].availableTimes.length - 1];
-                        doctors[i].availableTimes.pop();
-                        break;
-                    }
+        DoctorData storage doctor = doctorDataByAddress[_doctor];
+        uint[] storage availableTimes = doctor.availableTimes;
+
+        for (uint i = 0; i < times.length; i++) {
+            for (uint j = 0; j < availableTimes.length; j++) {
+                if (availableTimes[j] == times[i]) {
+                    availableTimes[j] = availableTimes[availableTimes.length - 1];
+                    availableTimes.pop();
+                    break;
                 }
             }
-            emit DoctorDataUpdated(
-                doctors[i].id,
-                doctors[i].username,
-                doctors[i].displayName,
-                doctors[i].profileInfo,
-                doctors[i].availableTimes
-            );
-            break;
         }
-     }
+
+        emit DoctorDataUpdated(
+            doctor.id,
+            doctor.username,
+            doctor.displayName,
+            doctor.profileInfo,
+            doctor.availableTimes
+        );
     }
 
-    function getDoctorAvailability(
-        address _doctor
-    ) external view returns (uint[] memory) {
-        for (uint i = 0; i < doctors.length; i++) {
-            if (doctors[i].id == _doctor) {
-                return doctors[i].availableTimes;
-            }
-        }
-    }
-
-    function toAsciiString(uint256 value) internal pure returns (string memory) {
-        if (value == 0) {
-            return "0";
-        }
-        
-        uint256 temp = value;
-        uint256 digits;
-        
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
-        }
-        
-        bytes memory buffer = new bytes(digits);
-        uint256 index = digits - 1;
-        temp = value;
-        
-        while (temp != 0) {
-            buffer[index--] = bytes1(uint8(48 + temp % 10));
-            temp /= 10;
-        }
-        
-        return string(buffer);
+    function getDoctorAvailability(address _doctor) external view returns (uint[] memory) {
+        DoctorData storage doctor = doctorDataByAddress[_doctor];
+        return doctor.availableTimes;
     }
 
 }

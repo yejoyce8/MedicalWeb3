@@ -98,7 +98,7 @@ export async function createPatient(username, displayName, medicalInformation) {
         console.log('Patient Account created successfully');
 
         // then try to retrieve it by id
-        const data = await contract.methods.getPatientById(_id).call();
+        const data = await contract.methods.getPatientById(patientAccount.address).call();
         console.log(data);
     } catch (error) {
       console.error('Error retrieving patient account:', error);
