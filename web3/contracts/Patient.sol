@@ -38,6 +38,10 @@ contract Patient {
         emit PatientCreated(id, _username, _displayName, _medicalInformation);
     }
 
+    function getPatients() external view returns (PatientData[] memory) {
+        return patients;
+    }
+
     function getPatientCount() external view returns (uint256) {
         return patients.length;
     }

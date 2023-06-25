@@ -43,6 +43,10 @@ contract Doctor {
         emit DoctorDataCreated(id, _username, _displayName, _profileInfo, _availableTimes);
     }
 
+    function getDoctors() external view returns (DoctorData[] memory) {
+        return doctors;
+    }
+
     function getDoctorCount() external view returns (uint256) {
         return doctors.length;
     }

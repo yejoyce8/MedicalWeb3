@@ -22,7 +22,7 @@ export async function createDoctor(username, displayName, profileInfo, available
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
       const accounts = await web3Instance.eth.getAccounts();
-      const data = await contract.methods.getAppointmentsCount().call({from: accounts[0]});
+      const data = await contract.methods.getDoctorCount().call({from: accounts[0]});
       console.log(data);
     } catch (error) {
       console.error('Error:', error);
@@ -33,7 +33,7 @@ export async function createDoctor(username, displayName, profileInfo, available
     const contract = new web3Instance.eth.Contract(abi, doctorContractAddress);
     try {
       const accounts = await web3Instance.eth.getAccounts();
-      const data = await contract.methods.getAppointments().call({from: accounts[0]});
+      const data = await contract.methods.getDoctors().call({from: accounts[0]});
       console.log(data);
     } catch (error) {
       console.error('Error:', error);
