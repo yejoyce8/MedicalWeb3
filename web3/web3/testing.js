@@ -1,7 +1,7 @@
 // test
 import { web3Instance } from "./web3.js";
 import { createAppointment, getAppointments, getAppointmentsCount, getAppointmentsByDoctor, getAppointmentsByPatient, createAndRetrieveAppointments } from "./appointments.js";
-import { createDoctor, deleteDoctorProfile,deleteOneDoctorAvailability, createDoctorAvailability, getDoctorById, getDoctors, getDoctorCount, getDoctorAvailability} from "./doctor.js";
+import { createDoctor, deleteDoctorProfile,deleteOneDoctorAvailability, createDoctorAvailability, getDoctorById, getDoctors, getDoctorCount, getDoctorAvailability, testGetDoctorById, testGetDoctorByUsername, testDeleteDoctor, testSingleAvailability} from "./doctor.js";
 import { getPatients, createPatient, getPatientCount,testGetPatientById,updatePatientProfile, deletePatientProfile, testGetPatientByUsername, testDeletePatient } from "./patient.js";
 
 
@@ -26,40 +26,34 @@ document.querySelectorAll("button")[0].addEventListener("click", ()=>{ // will l
 
 
   // doctor tests -------------------
- 
+ // getDoctors = works
   document.querySelectorAll("button")[3].addEventListener("click", ()=>{
     getDoctors();
   });
 
+  // getDoctorCount = works
   document.querySelectorAll("button")[4].addEventListener("click", ()=>{
     getDoctorCount();
   });
 
-  // createDoctor
+  // createDoctor = works
   document.querySelectorAll("button")[5].addEventListener("click", ()=>{
     createDoctor('docuser', 'docdisplay',["info"], ["3589827944"]);
   });
 
-  // get doctorbyid
+  // get doctorbyid = works
    document.querySelectorAll("button")[6].addEventListener("click", ()=>{
-    const doctorAccount = web3Instance.eth.accounts.create();
-    getDoctorById(doctorAccount.address);
+    testGetDoctorById();
   });
 
-  // deleteDoctorProfile
+  // deleteDoctorProfile = works
   document.querySelectorAll("button")[7].addEventListener("click", ()=>{
-    const doctorAccount = web3Instance.eth.accounts.create();
-    deleteDoctorProfile(doctorAccount.address);
+    testDeleteDoctor();
   });
 
-  // deleteDoctorOneAvailability
+  // deleteDoctorOneAvailability and createDoctorONeAvailabilithy
   document.querySelectorAll("button")[8].addEventListener("click", ()=>{
-    // create an appointment for good measure
-    const doctorAccount = web3Instance.eth.accounts.create();
-    const patientAccount = web3Instance.eth.accounts.create();
-    createAppointment(patientAccount.address, doctorAccount.address, "123", "created");
-    // then delete it
-    deleteOneDoctorAvailability(doctorAccount.address, 0, "123");
+    testSingleAvailability();
   });
 
   // createDoctorAvailability
